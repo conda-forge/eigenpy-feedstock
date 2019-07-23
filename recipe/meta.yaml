@@ -10,7 +10,7 @@ source:
   sha256: eb061655a28548e352754bf3d687ffaf392b1d5a72511289dd411521817feddf
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
 
 requirements:
@@ -30,8 +30,12 @@ requirements:
     - {{ pin_compatible('numpy') }}
 
 test:
+  requires:
+    - pkg-config
   imports:
     - eigenpy
+  commands:
+    - pkg-config --modversion eigenpy
 
 about:
   home: http://github.com/stack-of-tasks/eigenpy
