@@ -1,5 +1,3 @@
-::set PKG_CONFIG_PATH=%LIBRARY_PREFIX%\share\pkgconfig
-
 mkdir build
 cd build
 
@@ -8,6 +6,8 @@ cmake ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DEIGENPY_STIELIB_ROOT=%PREFIX% ^
+    -DEIGEN3_FOUND=1 ^
+    -DEIGEN3_INCLUDE_DIRS=%LIBRARY_PREFIX%/include/eigen3 ^
     %SRC_DIR%
 if errorlevel 1 exit 1
 

@@ -9,7 +9,7 @@ source:
   url: https://github.com/stack-of-tasks/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
   sha256: 958b6c971d061341eadacaa293c5cf34f5f94ecc1a3c04383d366a5a9b198bf7
   patches:
-    - alt-sitelib-root.patch
+    - windows.patch
 
 build:
   number: 0
