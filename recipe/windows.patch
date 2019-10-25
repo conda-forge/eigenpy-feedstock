@@ -1,0 +1,39 @@
+--- python/CMakeLists.txt
++++ python/CMakeLists.txt
+@@ -26,13 +26,17 @@
+ ADD_LIBRARY(${PYWRAP} SHARED main.cpp)
+ TARGET_LINK_LIBRARIES(${PYWRAP} ${PROJECT_NAME}) 
+ TARGET_LINK_BOOST_PYTHON(${PYWRAP})
+ #IF(BUILD_WITH_COMMIT_VERSION)
+ #  TAG_LIBRARY_VERSION(${PYWRAP})
+ #ENDIF(BUILD_WITH_COMMIT_VERSION)
+-SET(${PYWRAP}_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/${PYTHON_SITELIB})
++IF(DEFINED EIGENPY_SITELIB_ROOT AND EIGENPY_SITELIB_ROOT)
++  SET(${PYWRAP}_INSTALL_DIR ${EIGENPY_SITELIB_ROOT}/${PYTHON_SITELIB})
++ELSE()
++  SET(${PYWRAP}_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/${PYTHON_SITELIB})
++ENDIF()
+ 
+ SET_PROPERTY(TARGET ${PYWRAP} PROPERTY LINKER_LANGUAGE CXX)
+ IF(APPLE)
+   # We need to change the extension for python bindings
+   SET_TARGET_PROPERTIES(${PYWRAP} PROPERTIES SUFFIX ".so")
+ ELSEIF(WIN32)
+
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -55,13 +55,13 @@
+ FIND_NUMPY()
+ INCLUDE_DIRECTORIES(SYSTEM ${NUMPY_INCLUDE_DIRS})
+ 
+ # ----------------------------------------------------
+ # --- DEPENDANCIES -----------------------------------
+ # ----------------------------------------------------
+-ADD_REQUIRED_DEPENDENCY("eigen3 >= 3.0.5")
++ADD_OPTIONAL_DEPENDENCY("eigen3 >= 3.0.5")
+ 
+ SET(BOOST_COMPONENTS python)
+ SEARCH_FOR_BOOST()
+ # Add Boost path to include directories.
+ INCLUDE_DIRECTORIES(SYSTEM ${Boost_INCLUDE_DIRS})
+ 
