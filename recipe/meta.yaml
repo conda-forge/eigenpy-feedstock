@@ -1,5 +1,5 @@
 {% set name = "eigenpy" %}
-{% set version = "1.6.2" %}
+{% set version = "1.6.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/stack-of-tasks/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 958b6c971d061341eadacaa293c5cf34f5f94ecc1a3c04383d366a5a9b198bf7
+  sha256: 676ad93ecdaa1c4e8ca779962d68876fa911c6ea113ceba5968950b9cc855147
   patches:
     - windows.patch
 
