@@ -10,6 +10,7 @@ cmake ^
     -DEIGENPY_SITELIB_ROOT=%PREFIX% ^
     -DEIGEN3_FOUND=1 ^
     -DEIGEN3_INCLUDE_DIRS=%LIBRARY_PREFIX%/include/eigen3 ^
+    -DPYTHON_EXECUTABLE=%PYTHON% ^
     %SRC_DIR%
 if errorlevel 1 exit 1
 
