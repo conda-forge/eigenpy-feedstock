@@ -8,8 +8,6 @@ package:
 source:
   url: https://github.com/stack-of-tasks/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
   sha256: cf6de45b52932b73bdb5546c2719887d4b177561ec2a851b311ee4c338794243
-  patches:
-    - patch.diff
 
 build:
   number: 0
