@@ -27,6 +27,7 @@ requirements:
     - python
     - numpy
   run:
+    - eigen
     - boost
     - python
     - {{ pin_compatible('numpy') }}
