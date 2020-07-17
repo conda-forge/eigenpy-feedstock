@@ -5,7 +5,7 @@ Home: http://github.com/stack-of-tasks/eigenpy
 
 Package license: BSD-2-Clause
 
-Feedstock license: BSD 3-Clause
+Feedstock license: BSD-3-Clause
 
 Summary: Bindings between Numpy and Eigen using Boost.Python
 
