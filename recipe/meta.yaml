@@ -1,5 +1,5 @@
 {% set name = "eigenpy" %}
-{% set version = "2.6.4" %}
+{% set version = "2.6.5" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/stack-of-tasks/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 8d0d150f50e74c21d02047cfa4f3fc91f4b8db95ed24990548c4e389cfe39801
+  sha256: 0afc68f4b002315a6a1253cd832601f2a3976ed71ed7ab0499aa173363a92f88
 
 build:
   number: 0
