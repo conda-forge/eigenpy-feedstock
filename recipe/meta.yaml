@@ -10,7 +10,7 @@ source:
   sha256: d5ece10d1c255de746352b5d225b7216d258fb3f0df0d0fb39e0c86d8b6a0dfa
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win and vc<14]
 
 requirements:
@@ -20,7 +20,9 @@ requirements:
     - vs2017_win-32  # [win32]
     - cmake
     - make  # [not win]
-    - pkg-config
+    - python                                 # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - numpy                                  # [build_platform != target_platform]
   host:
     - eigen
     - boost
@@ -35,6 +37,7 @@ requirements:
 test:
   requires:
     - pkg-config
+    - boost
   imports:
     - eigenpy
   commands:
