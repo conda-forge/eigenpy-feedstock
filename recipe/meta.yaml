@@ -37,6 +37,7 @@ requirements:
 test:
   requires:
     - pkg-config
+    - boost
   imports:
     - eigenpy
   commands:
