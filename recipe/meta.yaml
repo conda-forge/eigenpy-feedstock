@@ -10,7 +10,7 @@ source:
   sha256: d5ece10d1c255de746352b5d225b7216d258fb3f0df0d0fb39e0c86d8b6a0dfa
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win and vc<14]
 
 requirements:
@@ -23,13 +23,13 @@ requirements:
     - pkg-config
   host:
     - eigen
-    - boost
-    - python
-    - numpy
+    - boost  # [build_platform != target_platform]
+    - python  # [build_platform != target_platform]
+    - numpy  # [build_platform != target_platform]
   run:
     - eigen
-    - boost
-    - python
+    - boost  # [build_platform != target_platform]
+    - python  # [build_platform != target_platform]
     - {{ pin_compatible('numpy') }}
 
 test:
