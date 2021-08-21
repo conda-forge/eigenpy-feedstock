@@ -8,9 +8,11 @@ package:
 source:
   url: https://github.com/stack-of-tasks/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
   sha256: 75b80c7a29453131c692cb55f652e4f45da6a5d0a522d04f71862baeb029a924
+  patches:
+    - patches/cmake.patch  # [osx and arm64]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win and vc<14]
 
 requirements:
@@ -22,17 +24,18 @@ requirements:
     - make  # [not win]
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - cython                                 # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
   host:
     - eigen
     - boost
-    - python
     - numpy
+    - python
   run:
     - eigen
     - boost
-    - python
     - {{ pin_compatible('numpy') }}
+    - python
 
 test:
   requires:
