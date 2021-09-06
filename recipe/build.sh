@@ -3,7 +3,6 @@
 mkdir build
 cd build
 
-#ls $SP_DIR/numpy/core/include
 export BUILD_NUMPY_INCLUDE_DIRS=$( $PYTHON -c "import numpy; print (numpy.get_include())")
 export TARGET_NUMPY_INCLUDE_DIRS=$SP_DIR/numpy/core/include
 
