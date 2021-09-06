@@ -18,6 +18,7 @@ fi
 cmake ${CMAKE_ARGS} .. \
       -DCMAKE_BUILD_TYPE=Release \
       -DPYTHON_EXECUTABLE=$PYTHON \
+      -DGENERATE_PYTHON_STUBS=ON \
       -DNUMPY_INCLUDE_DIRS=$TARGET_NUMPY_INCLUDE_DIRS
 make
 make install
