@@ -23,5 +23,5 @@ if errorlevel 1 exit 1
 
 :: Generate Stubs
 git clone https://github.com/jcarpent/pybind11-stubgen.git
-python "%CD%\pybind11-stubgen\pybind11_stubgen\__init__.py" -o %SP_DIR%\eigenpy eigenpy --boost-python --ignore-invalid signature --no-setup-py --root-module-suffix ""
+%PYTHON% "%CD%\pybind11-stubgen\pybind11_stubgen\__init__.py" -o %SP_DIR%\eigenpy eigenpy --boost-python --ignore-invalid signature --no-setup-py --root-module-suffix ""
 if errorlevel 1 exit 1
