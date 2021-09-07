@@ -8,6 +8,7 @@ cmake ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DPYTHON_SITELIB=%SP_DIR% ^
+    -DGENERATE_PYTHON_STUBS=OFF ^
     -DPYTHON_EXECUTABLE=%PYTHON% ^
     %SRC_DIR%
 if errorlevel 1 exit 1
@@ -18,4 +19,9 @@ if errorlevel 1 exit 1
 
 :: Install.
 cmake --build . --config Release --target install
+if errorlevel 1 exit 1
+
+:: Generate Stubs
+git clone https://github.com/jcarpent/pybind11-stubgen.git
+%PYTHON% "%CD%\pybind11-stubgen\pybind11_stubgen\__init__.py" -o %SP_DIR%\eigenpy eigenpy --boost-python --ignore-invalid signature --no-setup-py --root-module-suffix ""
 if errorlevel 1 exit 1

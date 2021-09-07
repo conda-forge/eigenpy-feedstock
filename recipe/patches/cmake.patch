@@ -1,49 +1,129 @@
-Submodule cmake a689714..0046921:
+Submodule cmake 11fe06f..9078d52:
 diff --git a/cmake/python.cmake b/cmake/python.cmake
-index 07b02b9..ca41686 100644
+index beabe40..6d3bd2c 100644
 --- a/cmake/python.cmake
 +++ b/cmake/python.cmake
-@@ -1,4 +1,4 @@
--# Copyright (C) 2008-2020 LAAS-CNRS, JRL AIST-CNRS, INRIA.
-+# Copyright (C) 2008-2021 LAAS-CNRS, JRL AIST-CNRS, INRIA.
+@@ -439,6 +439,42 @@ MACRO(PYTHON_BUILD MODULE FILE)
+     )
+ ENDMACRO()
+ 
++# PYTHON_BUILD_FILE(FILE)
++# --------------------------------------
++#
++# Build a Python a given file.
++#
++MACRO(PYTHON_BUILD_FILE FILE)
++  # Regex from IsValidTargetName in CMake/Source/cmGeneratorExpression.cxx
++  STRING(REGEX REPLACE "[^A-Za-z0-9_.+-]" "_" compile_pyc "compile_pyc_${CMAKE_CURRENT_SOURCE_DIR}")
++  IF(NOT TARGET ${compile_pyc})
++    ADD_CUSTOM_TARGET(${compile_pyc} ALL)
++  ENDIF()
++
++  ADD_CUSTOM_COMMAND(
++    TARGET ${compile_pyc}
++    PRE_BUILD
++    COMMAND
++    "${PYTHON_EXECUTABLE}"
++    -c "import py_compile; py_compile.compile(\"${FILE}\",\"${FILE}c\")"
++    VERBATIM
++  )
++
++  # Tag pyc file as generated.
++  SET_SOURCE_FILES_PROPERTIES(
++    "${FILE}c"
++    PROPERTIES GENERATED TRUE)
++
++  # Clean generated files.
++  SET_PROPERTY(
++    DIRECTORY APPEND PROPERTY
++    ADDITIONAL_MAKE_CLEAN_FILES
++    "${FILE}c"
++    )
++ENDMACRO()
++
++
++
+ # PYTHON_INSTALL_BUILD(MODULE FILE DEST)
+ # --------------------------------------
  #
- # This program is free software: you can redistribute it and/or modify
- # it under the terms of the GNU General Public License as published by
-@@ -490,16 +490,22 @@ MACRO(FIND_NUMPY)
-   # Detect numpy.
-   MESSAGE (STATUS "checking for numpy")
-   EXECUTE_PROCESS(
--    COMMAND "${PYTHON_EXECUTABLE}" "-c"
--    "import numpy; print (numpy.get_include())"
--    OUTPUT_VARIABLE NUMPY_INCLUDE_DIRS
-+    COMMAND "${PYTHON_EXECUTABLE}" "-c" "import numpy; print (True)"
-+    OUTPUT_VARIABLE IS_NUMPY
-     ERROR_QUIET)
--  IF (NOT NUMPY_INCLUDE_DIRS)
-+  IF (NOT IS_NUMPY)
-     MESSAGE (FATAL_ERROR "Failed to detect numpy")
-   ELSE ()
--    STRING(REGEX REPLACE "\n$" "" NUMPY_INCLUDE_DIRS "${NUMPY_INCLUDE_DIRS}")
--    FILE(TO_CMAKE_PATH "${NUMPY_INCLUDE_DIRS}" NUMPY_INCLUDE_DIRS)
--    MESSAGE (STATUS "  NUMPY_INCLUDE_DIRS=${NUMPY_INCLUDE_DIRS}")
-+    IF(NOT NUMPY_INCLUDE_DIRS)
-+      EXECUTE_PROCESS(
-+        COMMAND "${PYTHON_EXECUTABLE}" "-c"
-+        "import numpy; print (numpy.get_include())"
-+        OUTPUT_VARIABLE NUMPY_INCLUDE_DIRS
-+        ERROR_QUIET)
-+      STRING(REGEX REPLACE "\n$" "" NUMPY_INCLUDE_DIRS "${NUMPY_INCLUDE_DIRS}")
-+      FILE(TO_CMAKE_PATH "${NUMPY_INCLUDE_DIRS}" NUMPY_INCLUDE_DIRS)
-+    ENDIF()
-+    MESSAGE(STATUS "  NUMPY_INCLUDE_DIRS=${NUMPY_INCLUDE_DIRS}")
-     # Retrive NUMPY_VERSION
-     EXECUTE_PROCESS(
-       COMMAND "${PYTHON_EXECUTABLE}" "-c"
-@@ -507,6 +513,6 @@ MACRO(FIND_NUMPY)
+@@ -513,6 +549,6 @@ MACRO(FIND_NUMPY)
        OUTPUT_VARIABLE NUMPY_VERSION
        ERROR_QUIET)
      STRING(REGEX REPLACE "\n$" "" NUMPY_VERSION "${NUMPY_VERSION}")
--    MESSAGE (STATUS "  NUMPY_VERSION=${NUMPY_VERSION}")  
-+    MESSAGE(STATUS "  NUMPY_VERSION=${NUMPY_VERSION}")  
+-    MESSAGE(STATUS "  NUMPY_VERSION=${NUMPY_VERSION}")  
++    MESSAGE(STATUS "  NUMPY_VERSION=${NUMPY_VERSION}")
    ENDIF()
  ENDMACRO()
+diff --git a/cmake/stubs.cmake b/cmake/stubs.cmake
+index 7b40730..f6c4a64 100644
+--- a/cmake/stubs.cmake
++++ b/cmake/stubs.cmake
+@@ -52,7 +52,7 @@ MACRO(LOAD_STUBGEN)
+ ENDMACRO(LOAD_STUBGEN)
+ 
+ #.rst:
+-# .. command:: LOAD_STUBGEN(module_path module_name)
++# .. command:: LOAD_STUBGEN(module_path module_name module_install_dir)
+ #
+ #    Generate the stubs associated to a given project.
+ #    If the TARGET python exists, then the stubs generation will be performed after python target.
+@@ -61,16 +61,16 @@ ENDMACRO(LOAD_STUBGEN)
+ # .. variable:: module_path
+ #
+ #  Path pointing to the module
+-# 
++#
+ #.rst:
+ # .. variable:: module_name
+-# 
+-#  Name of the module 
++#
++#  Name of the module
+ #
+ #.rst:
+ # .. variable:: module_install_dir
+-# 
+-#  Where the module is installed 
++#
++#  Where the module is installed
+ #
+ FUNCTION(GENERATE_STUBS module_path module_name module_install_dir)
+ 
+@@ -85,25 +85,35 @@ FUNCTION(GENERATE_STUBS module_path module_name module_install_dir)
+     STRING(REGEX REPLACE "[^A-Za-z0-9_.+-]" "_" target_name "generate_stubs_${module_path}_${module_name}")
+   ENDIF()
+ 
++  IF($ENV{PYTHONPATH})
++    SET(PYTHONPATH ${module_path};$ENV{PYTHONPATH})
++  ELSE()
++    SET(PYTHONPATH ${module_path})
++  ENDIF($ENV{PYTHONPATH})
++
+   ADD_CUSTOM_TARGET(
+     ${target_name}
+     ALL
+     COMMAND
+-    ${CMAKE_COMMAND} -E env PYTHONPATH=${module_path};$ENV{PYTHONPATH}
++    ${CMAKE_COMMAND} -E env PYTHONPATH=${PYTHONPATH}
+     "${PYTHON_EXECUTABLE}"
+     "${STUBGEN_MAIN_FILE}"
+     "-o"
+     "${module_path}"
+     "${module_name}"
+     "--boost-python"
++    --ignore-invalid signature
+     "--no-setup-py"
++    "--root-module-suffix"
++    ""
++    VERBATIM
+   )
+   IF(TARGET python)
+     ADD_DEPENDENCIES(${target_name} python)
+   ENDIF(TARGET python)
+ 
+   INSTALL(
+-    DIRECTORY ${module_path}/${module_name}-stubs/${module_name}
++    DIRECTORY ${module_path}/${module_name}
+     DESTINATION ${module_install_dir}
+     FILES_MATCHING PATTERN "*.pyi"
+   )
