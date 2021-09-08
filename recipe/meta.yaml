@@ -12,7 +12,7 @@ source:
     - patches/cmake.patch
 
 build:
-  number: 0
+  number: 10
   skip: true  # [win and vc<14]
 
 requirements:
