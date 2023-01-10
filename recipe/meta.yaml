@@ -48,7 +48,7 @@ about:
   home: http://github.com/stack-of-tasks/eigenpy
   license: BSD-2-Clause
   license_family: BSD
-  license_file: COPYING.LESSER
+  license_file: LICENSE
   summary: Bindings between Numpy and Eigen using Boost.Python
   dev_url: https://github.com/stack-of-tasks/eigenpy
 
