@@ -1,3 +1,4 @@
+setlocal EnableDelayedExpansion
 set PKG_CONFIG_PATH=%LIBRARY_PREFIX%\share\pkgconfig
 
 mkdir build
@@ -8,7 +9,7 @@ cmake ^
     -G "NMake Makefiles" ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_BUILD_TYPE=Release ^
-    -DCMAKE_CXX_FLAGS="/Zm10 /MP1" ^
+    -DCMAKE_CXX_FLAGS="/Zm2000 /MP1" ^
     -DPYTHON_SITELIB=%SP_DIR% ^
     -DGENERATE_PYTHON_STUBS=OFF ^
     -DPYTHON_EXECUTABLE=%PYTHON% ^
