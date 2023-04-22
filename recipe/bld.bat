@@ -6,10 +6,9 @@ cd build
 
 cmake ^
     %CMAKE_ARGS% ^
-    -G "NMake Makefiles" ^
+    -G Ninja ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_BUILD_TYPE=Release ^
-    -DCMAKE_CXX_FLAGS="/Zm2000 /MP1 /EHsc" ^
     -DPYTHON_SITELIB=%SP_DIR% ^
     -DGENERATE_PYTHON_STUBS=OFF ^
     -DPYTHON_EXECUTABLE=%PYTHON% ^
