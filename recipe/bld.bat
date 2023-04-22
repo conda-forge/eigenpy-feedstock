@@ -8,7 +8,7 @@ cmake ^
     -G "NMake Makefiles" ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_BUILD_TYPE=Release ^
-    -DCMAKE_CXX_FLAGS="/Zm2000" ^
+    -DCMAKE_CXX_FLAGS="/Zm10000" ^
     -DPYTHON_SITELIB=%SP_DIR% ^
     -DGENERATE_PYTHON_STUBS=OFF ^
     -DPYTHON_EXECUTABLE=%PYTHON% ^
@@ -16,7 +16,7 @@ cmake ^
 if errorlevel 1 exit 1
 
 :: Build.
-cmake --build . --config Release -j1
+cmake --build . --config Release -j1 -v
 if errorlevel 1 exit 1
 
 :: Install.
