@@ -1,5 +1,5 @@
 {% set name = "eigenpy" %}
-{% set version = "2.9.2" %}
+{% set version = "3.0.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/stack-of-tasks/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
-  sha256: a8b64e6db34282bad7b5006512ce506ef148c445a337abdbac7fc2caf22880e4
+  sha256: 00848b0ccb52533a7b2cdc36d3f8caf2276e274bbbcce6577f5fb014ac1dd9af
 
 build:
   number: 0
@@ -15,14 +15,13 @@ build:
 
 requirements:
   build:
-    - {{ compiler('cxx') }}  # [not win]
-    - vs2017_win-64  # [win64]
-    - vs2017_win-32  # [win32]
+    - {{ compiler('cxx') }}
     - cmake
+    - clang  # [win]
     - make  # [not win]
+    - ninja  # [win]
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - cython                                 # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
   host:
     - eigen

@@ -1,10 +1,16 @@
+setlocal EnableDelayedExpansion
 set PKG_CONFIG_PATH=%LIBRARY_PREFIX%\share\pkgconfig
 
 mkdir build
 cd build
 
+set "CC=clang-cl.exe"
+set "CXX=clang-cl.exe"
+set "CL=/MP"
+
 cmake ^
-    -G "NMake Makefiles" ^
+    %CMAKE_ARGS% ^
+    -G Ninja ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DPYTHON_SITELIB=%SP_DIR% ^
@@ -14,7 +20,7 @@ cmake ^
 if errorlevel 1 exit 1
 
 :: Build.
-cmake --build . --config Release
+cmake --build . --config Release -j1 -v
 if errorlevel 1 exit 1
 
 :: Install.
