@@ -403,6 +403,7 @@ Feedstock Maintainers
 =====================
 
 * [@jcarpent](https://github.com/jcarpent/)
+* [@jorisv](https://github.com/jorisv/)
 * [@seanyen](https://github.com/seanyen/)
 * [@wolfv](https://github.com/wolfv/)
 
