@@ -32,11 +32,13 @@ requirements:
     - libboost-python-devel
     - numpy
     - python
+    - scipy
   run:
     - eigen
     - libboost-python-devel
     - {{ pin_compatible('numpy') }}
     - python
+    - scipy
 
 test:
   requires:
