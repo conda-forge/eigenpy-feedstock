@@ -1,0 +1,42 @@
+From bf34fff6b4d8980a4ff345dc7b5da1bd214f50aa Mon Sep 17 00:00:00 2001
+From: Joris Vaillant <joris.vaillant@inria.fr>
+Date: Tue, 27 Feb 2024 17:03:34 +0100
+Subject: [PATCH] cmake: Don't build std_unique_ptr unit tests if
+ CMAKE_CXX_STANDARD is under 14
+
+---
+ unittest/CMakeLists.txt | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/unittest/CMakeLists.txt b/unittest/CMakeLists.txt
+index 06697b1..f5d5737 100644
+--- a/unittest/CMakeLists.txt
++++ b/unittest/CMakeLists.txt
+@@ -46,7 +46,10 @@ add_lib_unit_test(std_vector)
+ add_lib_unit_test(std_array)
+ add_lib_unit_test(std_pair)
+ add_lib_unit_test(user_struct)
+-add_lib_unit_test(std_unique_ptr)
++
++if(CMAKE_CXX_STANDARD GREATER 14 AND CMAKE_CXX_STANDARD LESS 98)
++  add_lib_unit_test(std_unique_ptr)
++endif()
+ 
+ function(config_test test tagname opttype)
+   set(MODNAME ${test}_${tagname})
+@@ -137,8 +140,10 @@ add_python_unit_test("py-std-pair" "unittest/python/test_std_pair.py"
+ add_python_unit_test("py-user-struct" "unittest/python/test_user_struct.py"
+                      "unittest")
+ 
+-add_python_unit_test("py-std-unique-ptr"
+-                     "unittest/python/test_std_unique_ptr.py" "unittest")
++if(CMAKE_CXX_STANDARD GREATER 14 AND CMAKE_CXX_STANDARD LESS 98)
++  add_python_unit_test("py-std-unique-ptr"
++                       "unittest/python/test_std_unique_ptr.py" "unittest")
++endif()
+ 
+ add_python_unit_test("py-bind-virtual" "unittest/python/test_bind_virtual.py"
+                      "unittest")
+-- 
+2.34.1
+
