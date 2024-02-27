@@ -9,6 +9,10 @@ source:
   url: https://github.com/stack-of-tasks/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
   sha256: ad619bda7c24a129ce5469de7dc4544220c31db1fce5d0a37ceb64824cfa8978
 
+  patches:
+    # Deactivate unique_ptr test in C++11
+    - patches/0001-cmake-Don-t-build-std_unique_ptr-unit-tests-if-CMAKE.patch
+
 build:
   number: 0
   run_exports:
