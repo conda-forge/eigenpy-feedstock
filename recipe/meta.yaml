@@ -14,7 +14,7 @@ source:
     - patches/0001-cmake-Don-t-build-std_unique_ptr-unit-tests-if-CMAKE.patch
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x.x') }}
 
@@ -28,9 +28,6 @@ requirements:
     - clang  # [win]
     - make  # [not win]
     - ninja  # [win]
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - numpy                                  # [build_platform != target_platform]
   host:
     - eigen
     - libboost-python-devel
