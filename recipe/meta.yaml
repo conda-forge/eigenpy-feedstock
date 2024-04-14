@@ -1,5 +1,5 @@
 {% set name = "eigenpy" %}
-{% set version = "3.4.0" %}
+{% set version = "3.5.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,14 +7,10 @@ package:
 
 source:
   url: https://github.com/stack-of-tasks/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
-  sha256: ad619bda7c24a129ce5469de7dc4544220c31db1fce5d0a37ceb64824cfa8978
-
-  patches:
-    # Deactivate unique_ptr test in C++11
-    - patches/0001-cmake-Don-t-build-std_unique_ptr-unit-tests-if-CMAKE.patch
+  sha256: 853a0612c341fd4e0136545e065f9e0d5e3177f62a00176a09667e2ffca66416
 
 build:
-  number: 1
+  number: 0
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x.x') }}
 
