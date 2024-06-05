@@ -10,7 +10,7 @@ source:
   sha256: 2c6784bb0cd9c58bfa6b22a29d5ec529537dc4496d8667740a62965ad2b5478f
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x.x') }}
 
@@ -37,7 +37,6 @@ requirements:
   run:
     - eigen
     - libboost-python-devel
-    - {{ pin_compatible('numpy') }}
     - python
     - scipy
 
