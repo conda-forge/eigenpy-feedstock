@@ -1,5 +1,5 @@
 {% set name = "eigenpy" %}
-{% set version = "3.9.0" %}
+{% set version = "3.10.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/stack-of-tasks/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 672cd3ee675f559d0f4b32d76353fe51891ea95b0046698ce74bb9c4a54ed0f5
+  sha256: 041ca892a9dab2cd81ba828aeb247adfd44438db5d6037ed61fde1e833a3edbe
 
 build:
   number: 1
@@ -60,6 +60,7 @@ about:
 
 extra:
   recipe-maintainers:
+    - ManifoldFR
     - jorisv
     - jcarpent
     - wolfv
