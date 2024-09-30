@@ -39,7 +39,6 @@ requirements:
   run:
     - eigen
     - libboost-python-devel
-    - {{ pin_compatible('numpy') }}
     - python
     - scipy
 
