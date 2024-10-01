@@ -8,9 +8,11 @@ package:
 source:
   url: https://github.com/stack-of-tasks/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
   sha256: 041ca892a9dab2cd81ba828aeb247adfd44438db5d6037ed61fde1e833a3edbe
+  patches:
+    - patches/0001-core-Allow-cxx11-compatibility.patch
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x.x') }}
 
