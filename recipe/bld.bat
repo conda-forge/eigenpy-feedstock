@@ -4,12 +4,12 @@ set PKG_CONFIG_PATH=%LIBRARY_PREFIX%\share\pkgconfig
 mkdir build
 cd build
 
-set "CC=clang-cl.exe"
-set "CXX=clang-cl.exe"
-set "CL=/MP"
 
 cmake ^
     %CMAKE_ARGS% ^
+    -DCMAKE_C_COMPILER=clang-cl ^
+    -DCMAKE_CXX_COMPILER=clang-cl ^
+    -DCMAKE_LINKER=link ^
     -G Ninja ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_BUILD_TYPE=Release ^
