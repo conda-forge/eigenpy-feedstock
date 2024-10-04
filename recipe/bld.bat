@@ -6,7 +6,7 @@ cd build
 
 set "CC=clang-cl.exe"
 set "CXX=clang-cl.exe"
-set "CL=/MP"
+set "CL=-fuse-ld=link.exe"
 
 cmake ^
     %CMAKE_ARGS% ^
