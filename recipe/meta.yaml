@@ -33,7 +33,7 @@ requirements:
   host:
     - eigen
     - libboost-python-devel
-    - numpy
+    - numpy >=2.1
     - python
     - scipy
   run:
