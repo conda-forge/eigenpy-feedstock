@@ -13,6 +13,8 @@ source:
 
 build:
   number: 1
+  # There is no Numpy >= 2.1 on Python 3.9
+  skip: true  # [win and py<310]
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x.x') }}
 
@@ -33,12 +35,15 @@ requirements:
   host:
     - eigen
     - libboost-python-devel
-    - numpy >=2.1
+    # On Windows, Numpy 2.0 don't allow to export the PY_ARRAY_UNIQUE_SYMBOL
+    - numpy >=1.19,<2|>=2.1  # [win]
+    - numpy                  # [not win]
     - python
     - scipy
   run:
     - eigen
     - libboost-python-devel
+    - numpy >=1.19,<2|>=2.1  # [win]
     - python
     - scipy
 
