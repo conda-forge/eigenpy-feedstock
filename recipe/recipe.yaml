@@ -51,11 +51,11 @@ requirements:
     - libboost-python-devel
     - if: win
       then:
-        if: match(python, ">=3.10")
-        then:
-          - numpy >=2.1
-        else: # if python < 3.10
-          - ${{ pin_compatible('numpy') }}
+        - if: match(python, ">=3.10")
+          then:
+            - numpy >=2.1
+          else: # if python < 3.10
+            - ${{ pin_compatible('numpy') }}
     - python
     - scipy
   run_exports:
