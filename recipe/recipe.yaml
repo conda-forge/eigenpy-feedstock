@@ -28,6 +28,7 @@ requirements:
     - cmake
     - clang
     - ninja
+    - git
   host:
     - eigen
     - libboost-python-devel
