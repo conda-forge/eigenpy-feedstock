@@ -26,9 +26,10 @@ requirements:
         - cross-python_${{ target_platform }}
         - numpy
     - cmake
-    - clang
     - ninja
     - git
+    - if: win
+      then: clang # use clang-cl on windows
   host:
     - eigen
     - libboost-python-devel
