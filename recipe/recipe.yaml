@@ -26,12 +26,8 @@ requirements:
         - cross-python_${{ target_platform }}
         - numpy
     - cmake
-    - if: win
-      then:
-        - clang
-        - ninja
-      else:
-        - make
+    - clang
+    - ninja
   host:
     - eigen
     - libboost-python-devel

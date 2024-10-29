@@ -20,13 +20,14 @@ else
 fi
 
 cmake ${CMAKE_ARGS} .. \
+      -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
       -DPYTHON_EXECUTABLE=$PYTHON \
       -DBUILD_TESTING_SCIPY=OFF \
       -DGENERATE_PYTHON_STUBS=$GENERATE_PYTHON_STUBS \
       -DPython3_NumPy_INCLUDE_DIR=$Python3_NumPy_INCLUDE_DIR
-make -j$(($CPU_COUNT/2))
-make install
+cmake --build . --parallel $(($CPU_COUNT/2))
+cmake --build . --target install
 
 if [[ $CONDA_BUILD_CROSS_COMPILATION == 1 ]]; then
   echo $BUILD_PREFIX
