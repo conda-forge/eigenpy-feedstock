@@ -1,0 +1,93 @@
+context:
+  name: eigenpy
+  version: 3.10.0
+  build_num: 3
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/stack-of-tasks/${{ name }}/releases/download/v${{ version }}/${{ name }}-${{ version }}.tar.gz
+  sha256: 041ca892a9dab2cd81ba828aeb247adfd44438db5d6037ed61fde1e833a3edbe
+  patches:
+    - patches/0001-core-Allow-cxx11-compatibility.patch
+
+build:
+  number: ${{ build_num }}
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ stdlib("c") }}
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - cmake
+    - if: win
+      then:
+        - clang
+        - ninja
+      else:
+        - make
+  host:
+    - eigen
+    - libboost-python-devel
+    - if: win
+      then:
+        - if: match(python, ">=3.10")
+          then:
+            # On Windows, Numpy 2.0 don't allow to export the PY_ARRAY_UNIQUE_SYMBOL.
+            # This has been fixed in Numpy 2.1.
+            - numpy >=2.1
+          else: # if python < 3.10
+            # Unfortunatly, Numpy 2.1 is not distributed with Python 3.9.
+            # We are forced to use Numpy 1 in this case.
+            - numpy >=1.19,<2
+      else: # if not win
+        - numpy
+    - python
+    - scipy
+  run:
+    - eigen
+    - libboost-python-devel
+    - if: win
+      then:
+        if: match(python, ">=3.10")
+        then:
+          - numpy >=2.1
+        else: # if python < 3.10
+          - ${{ pin_compatible('numpy') }}
+    - python
+    - scipy
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound='x.x.x') }}
+
+tests:
+  - script:
+    - pkg-config --modversion eigenpy
+    requirements:
+      run:
+        - pkg-config
+        - libboost-python-devel
+  - python:
+      imports:
+        - eigenpy
+
+about:
+  homepage: http://github.com/stack-of-tasks/eigenpy
+  license: BSD-2-Clause
+  license_family: BSD
+  license_file: LICENSE
+  summary: Bindings between Numpy and Eigen using Boost.Python
+  repository: https://github.com/stack-of-tasks/eigenpy
+
+extra:
+  recipe-maintainers:
+    - ManifoldFR
+    - jorisv
+    - jcarpent
+    - wolfv
+    - seanyen
