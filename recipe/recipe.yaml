@@ -10,8 +10,6 @@ package:
 source:
   url: https://github.com/stack-of-tasks/${{ name }}/releases/download/v${{ version }}/${{ name }}-${{ version }}.tar.gz
   sha256: 7b4ea31c8eda2eeba6b1ebb22ebfe72b650e04da20e6ef48d48008c2afb1bbc4
-  patches:
-    - patches/0001-core-Allow-cxx11-compatibility.patch
 
 build:
   number: ${{ build_num }}
