@@ -1,6 +1,6 @@
 context:
   name: eigenpy
-  version: 3.10.1
+  version: "3.10.2"
   build_num: 0
 
 package:
@@ -9,10 +9,10 @@ package:
 
 source:
   url: https://github.com/stack-of-tasks/${{ name }}/releases/download/v${{ version }}/${{ name }}-${{ version }}.tar.gz
-  sha256: 7b4ea31c8eda2eeba6b1ebb22ebfe72b650e04da20e6ef48d48008c2afb1bbc4
+  sha256: 1b24316e01e9d1d8f90baca838f9d9996608b0390df13491900e92ca59801db2
 
 build:
-  number: ${{ build_num }}
+  number: 0
 
 requirements:
   build:
@@ -57,7 +57,7 @@ requirements:
 
 tests:
   - script:
-    - pkg-config --modversion eigenpy
+      - pkg-config --modversion eigenpy
     requirements:
       run:
         - pkg-config
