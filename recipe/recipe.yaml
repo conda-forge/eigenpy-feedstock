@@ -1,6 +1,6 @@
 context:
   name: eigenpy
-  version: "3.11.0"
+  version: "3.12.0"
   build_num: 0
 
 package:
@@ -9,10 +9,10 @@ package:
 
 source:
   url: https://github.com/stack-of-tasks/${{ name }}/releases/download/v${{ version }}/${{ name }}-${{ version }}.tar.gz
-  sha256: 5c618843194cc372e1ba4e0430240f310985edd9fd7d99a7c24794d1b62e1b3d
+  sha256: e6b7f17e1b7fb61e52447ceee8f47c3fc2c8f9cc4d19317e0467dc71babdb350
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
