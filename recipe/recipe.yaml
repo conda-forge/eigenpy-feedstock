@@ -45,7 +45,6 @@ requirements:
     - python
     - scipy
   run:
-    - eigen
     - libboost-python-devel
     - if: win and match(python, ">=3.10")
       then: numpy >=2.1
