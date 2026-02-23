@@ -30,6 +30,7 @@ requirements:
       then: clang # use clang-cl on windows
   host:
     - eigen
+    - eigen-abi-devel
     - libboost-python-devel
       # On Windows, Numpy 2.0 don't allow to export the PY_ARRAY_UNIQUE_SYMBOL.
       # This has been fixed in Numpy 2.1.
@@ -45,6 +46,7 @@ requirements:
     - scipy
   run:
     - eigen
+    - eigen-abi-devel
     - libboost-python-devel
     - if: win and match(python, ">=3.10")
       then: numpy >=2.1
