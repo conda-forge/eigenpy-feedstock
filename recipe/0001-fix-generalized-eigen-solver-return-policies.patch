@@ -1,0 +1,21 @@
+diff --git a/include/eigenpy/decompositions/GeneralizedEigenSolver.hpp b/include/eigenpy/decompositions/GeneralizedEigenSolver.hpp
+index 2554709..a579da6 100644
+--- a/include/eigenpy/decompositions/GeneralizedEigenSolver.hpp
++++ b/include/eigenpy/decompositions/GeneralizedEigenSolver.hpp
+@@ -32,9 +32,11 @@ struct GeneralizedEigenSolverVisitor
+             +[](const Solver& c) { return c.eigenvalues().eval(); },
+             "Returns the computed generalized eigenvalues.")
+ 
+-        .def("alphas", &Solver::alphas, bp::arg("self"),
+-             "Returns the vectors containing the alpha values. ")
+-        .def("betas", &Solver::betas, bp::arg("self"),
+-             "Returns the vectors containing the beta values. ")
++        .def("alphas", &Solver::alphas, bp::arg("self"),
++             "Returns the vectors containing the alpha values. ",
++             bp::return_value_policy<bp::return_by_value>())
++        .def("betas", &Solver::betas, bp::arg("self"),
++             "Returns the vectors containing the beta values. ",
++             bp::return_value_policy<bp::return_by_value>())
+ 
+         .def("compute",
+              &GeneralizedEigenSolverVisitor::compute_proxy<MatrixType>,
