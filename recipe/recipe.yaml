@@ -12,6 +12,7 @@ source:
   sha256: e6b7f17e1b7fb61e52447ceee8f47c3fc2c8f9cc4d19317e0467dc71babdb350
   patches:
     - 0001-fix-generalized-eigen-solver-return-policies.patch
+    - 0002-fix-svd-compute-overloads.patch
 
 build:
   number: 3

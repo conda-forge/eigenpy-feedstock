@@ -1,0 +1,81 @@
+diff --git a/include/eigenpy/decompositions/BDCSVD.hpp b/include/eigenpy/decompositions/BDCSVD.hpp
+index 9f9eb75..231b304 100644
+--- a/include/eigenpy/decompositions/BDCSVD.hpp
++++ b/include/eigenpy/decompositions/BDCSVD.hpp
+@@ -32,17 +32,21 @@ struct BDCSVDVisitor
+ 
+         .def("cols", &Solver::cols, bp::arg("self"),
+              "Returns the number of columns. ")
+-        .def("compute",
+-             (Solver & (Solver::*)(const MatrixType &matrix)) & Solver::compute,
++        .def(
++             "compute",
++             +[](Solver &self, const MatrixType &matrix) -> Solver & {
++               return self.compute(matrix);
++             },
+              bp::args("self", "matrix"),
+              "Method performing the decomposition of given matrix. Computes "
+              "Thin/Full "
+              "unitaries U/V if specified using the Options template parameter "
+              "or the class constructor. ",
+              bp::return_self<>())
+-        .def("compute",
+-             (Solver & (Solver::*)(const MatrixType &matrix,
+-                                   unsigned int computationOptions)) &
+-                 Solver::compute,
++        .def(
++             "compute",
++             +[](Solver &self, const MatrixType &matrix,
++                 unsigned int computationOptions) -> Solver & {
++               return self.compute(matrix, computationOptions);
++             },
+              bp::args("self", "matrix", "computationOptions"),
+              "Method performing the decomposition of given matrix, as "
+              "specified by the computationOptions parameter.  ",
+diff --git a/include/eigenpy/decompositions/JacobiSVD.hpp b/include/eigenpy/decompositions/JacobiSVD.hpp
+index 1ea45ed..4454e5e 100644
+--- a/include/eigenpy/decompositions/JacobiSVD.hpp
++++ b/include/eigenpy/decompositions/JacobiSVD.hpp
+@@ -13,17 +13,23 @@ namespace eigenpy {
+ template <typename JacobiSVD>
+ struct JacobiSVDVisitor
+     : public boost::python::def_visitor<JacobiSVDVisitor<JacobiSVD>> {
++  typedef JacobiSVD Solver;
+   typedef typename JacobiSVD::MatrixType MatrixType;
++  typedef Eigen::MatrixBase<MatrixType> MatrixBaseType;
+   typedef typename MatrixType::Scalar Scalar;
+ 
+   template <class PyClass>
+   void visit(PyClass &cl) const {
+     cl.def(bp::init<>(bp::arg("self"), "Default constructor"))
+@@ -35,17 +41,21 @@ struct JacobiSVDVisitor
+ 
+         .def("cols", &JacobiSVD::cols, bp::arg("self"),
+              "Returns the number of columns. ")
+-        .def("compute",
+-             (JacobiSVD & (JacobiSVD::*)(const MatrixType &matrix)) &
+-                 JacobiSVD::compute,
++        .def(
++             "compute",
++             +[](Solver &self, const MatrixType &matrix) -> Solver & {
++               return self.compute(matrix);
++             },
+              bp::args("self", "matrix"),
+              "Method performing the decomposition of given matrix. Computes "
+              "Thin/Full "
+              "unitaries U/V if specified using the Options template parameter "
+              "or the class constructor. ",
+              bp::return_self<>())
+-        .def("compute",
+-             (JacobiSVD & (JacobiSVD::*)(const MatrixType &matrix,
+-                                         unsigned int computationOptions)) &
+-                 JacobiSVD::compute,
++        .def(
++             "compute",
++             +[](Solver &self, const MatrixType &matrix,
++                 unsigned int computationOptions) -> Solver & {
++               return self.compute(matrix, computationOptions);
++             },
+              bp::args("self", "matrix", "computationOptions"),
+              "Method performing the decomposition of given matrix, as "
+              "specified by the computationOptions parameter.  ",
