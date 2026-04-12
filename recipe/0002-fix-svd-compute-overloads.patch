@@ -2,17 +2,17 @@ diff --git a/include/eigenpy/decompositions/BDCSVD.hpp b/include/eigenpy/decompo
 index 9f9eb75..231b304 100644
 --- a/include/eigenpy/decompositions/BDCSVD.hpp
 +++ b/include/eigenpy/decompositions/BDCSVD.hpp
-@@ -32,17 +32,21 @@ struct BDCSVDVisitor
+@@ -32,23 +32,28 @@ struct BDCSVDVisitor
  
          .def("cols", &Solver::cols, bp::arg("self"),
               "Returns the number of columns. ")
 -        .def("compute",
 -             (Solver & (Solver::*)(const MatrixType &matrix)) & Solver::compute,
 +        .def(
-+             "compute",
-+             +[](Solver &self, const MatrixType &matrix) -> Solver & {
-+               return self.compute(matrix);
-+             },
++            "compute",
++            +[](Solver &self, const MatrixType &matrix) -> Solver & {
++              return self.compute(matrix);
++            },
               bp::args("self", "matrix"),
               "Method performing the decomposition of given matrix. Computes "
               "Thin/Full "
@@ -24,31 +24,25 @@ index 9f9eb75..231b304 100644
 -                                   unsigned int computationOptions)) &
 -                 Solver::compute,
 +        .def(
-+             "compute",
-+             +[](Solver &self, const MatrixType &matrix,
-+                 unsigned int computationOptions) -> Solver & {
-+               return self.compute(matrix, computationOptions);
-+             },
++            "compute",
++            +[](Solver &self, const MatrixType &matrix,
++                unsigned int computationOptions) -> Solver & {
++              return self.compute(matrix, computationOptions);
++            },
               bp::args("self", "matrix", "computationOptions"),
               "Method performing the decomposition of given matrix, as "
               "specified by the computationOptions parameter.  ",
+              bp::return_self<>())
+         .def("rows", &Solver::rows, bp::arg("self"),
+              "Returns the number of rows. ")
+         .def("setSwitchSize", &Solver::setSwitchSize, bp::args("self", "s"))
+ 
+         .def(SVDBaseVisitor<Solver>());
 diff --git a/include/eigenpy/decompositions/JacobiSVD.hpp b/include/eigenpy/decompositions/JacobiSVD.hpp
 index 1ea45ed..4454e5e 100644
 --- a/include/eigenpy/decompositions/JacobiSVD.hpp
 +++ b/include/eigenpy/decompositions/JacobiSVD.hpp
-@@ -13,17 +13,23 @@ namespace eigenpy {
- template <typename JacobiSVD>
- struct JacobiSVDVisitor
-     : public boost::python::def_visitor<JacobiSVDVisitor<JacobiSVD>> {
-+  typedef JacobiSVD Solver;
-   typedef typename JacobiSVD::MatrixType MatrixType;
-+  typedef Eigen::MatrixBase<MatrixType> MatrixBaseType;
-   typedef typename MatrixType::Scalar Scalar;
- 
-   template <class PyClass>
-   void visit(PyClass &cl) const {
-     cl.def(bp::init<>(bp::arg("self"), "Default constructor"))
-@@ -35,17 +41,21 @@ struct JacobiSVDVisitor
+@@ -31,24 +31,28 @@ struct JacobiSVDVisitor
  
          .def("cols", &JacobiSVD::cols, bp::arg("self"),
               "Returns the number of columns. ")
@@ -56,10 +50,10 @@ index 1ea45ed..4454e5e 100644
 -             (JacobiSVD & (JacobiSVD::*)(const MatrixType &matrix)) &
 -                 JacobiSVD::compute,
 +        .def(
-+             "compute",
-+             +[](Solver &self, const MatrixType &matrix) -> Solver & {
-+               return self.compute(matrix);
-+             },
++            "compute",
++            +[](JacobiSVD &self, const MatrixType &matrix) -> JacobiSVD & {
++              return self.compute(matrix);
++            },
               bp::args("self", "matrix"),
               "Method performing the decomposition of given matrix. Computes "
               "Thin/Full "
@@ -71,11 +65,16 @@ index 1ea45ed..4454e5e 100644
 -                                         unsigned int computationOptions)) &
 -                 JacobiSVD::compute,
 +        .def(
-+             "compute",
-+             +[](Solver &self, const MatrixType &matrix,
-+                 unsigned int computationOptions) -> Solver & {
-+               return self.compute(matrix, computationOptions);
-+             },
++            "compute",
++            +[](JacobiSVD &self, const MatrixType &matrix,
++                unsigned int computationOptions) -> JacobiSVD & {
++              return self.compute(matrix, computationOptions);
++            },
               bp::args("self", "matrix", "computationOptions"),
               "Method performing the decomposition of given matrix, as "
               "specified by the computationOptions parameter.  ",
+              bp::return_self<>())
+         .def("rows", &JacobiSVD::rows, bp::arg("self"),
+              "Returns the number of rows.")
+ 
+         .def(SVDBaseVisitor<JacobiSVD>());
