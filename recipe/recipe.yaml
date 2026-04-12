@@ -13,6 +13,7 @@ source:
   patches:
     - 0001-fix-generalized-eigen-solver-return-policies.patch
     - 0002-fix-svd-compute-overloads.patch
+    - 0003-fix-sparse-lu-eigen5-compat.patch
 
 build:
   number: 3
