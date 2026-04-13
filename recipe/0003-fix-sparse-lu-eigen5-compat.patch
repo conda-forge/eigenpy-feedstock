@@ -1,0 +1,38 @@
+diff --git a/include/eigenpy/decompositions/sparse/SparseLU.hpp b/include/eigenpy/decompositions/sparse/SparseLU.hpp
+index 045b3f4..b099c9b 100644
+--- a/include/eigenpy/decompositions/sparse/SparseLU.hpp
++++ b/include/eigenpy/decompositions/sparse/SparseLU.hpp
+@@ -98,8 +98,13 @@ struct SparseLUVisitor : public boost::python::def_visitor<
+   typedef typename MatrixType::RealScalar RealScalar;
+ 
+   typedef typename Solver::SCMatrix SCMatrix;
+   typedef typename MatrixType::StorageIndex StorageIndex;
++#if EIGEN_VERSION_AT_LEAST(3, 4, 90)
++  typedef Eigen::Map<Eigen::SparseMatrix<Scalar, Eigen::ColMajor, StorageIndex>>
++      MappedSparseMatrix;
++#else
+   typedef Eigen::MappedSparseMatrix<Scalar, Eigen::ColMajor, StorageIndex>
+       MappedSparseMatrix;
++#endif
+   typedef Eigen::SparseLUMatrixLReturnType<SCMatrix> LType;
+   typedef Eigen::SparseLUMatrixUReturnType<SCMatrix, MappedSparseMatrix> UType;
+ 
+diff --git a/src/decompositions/sparse-lu-solver.cpp b/src/decompositions/sparse-lu-solver.cpp
+index 763a755..44eca4f 100644
+--- a/src/decompositions/sparse-lu-solver.cpp
++++ b/src/decompositions/sparse-lu-solver.cpp
+@@ -13,8 +13,13 @@ void exposeSparseLUSolver() {
+   typedef SparseLU<ColMajorSparseMatrix, Ordering> SparseLUType;
+ 
+   typedef typename SparseLUType::Scalar Scalar;
+   typedef typename SparseLUType::SCMatrix SCMatrix;
++#if EIGEN_VERSION_AT_LEAST(3, 4, 90)
++  typedef Eigen::Map<Eigen::SparseMatrix<Scalar, Eigen::ColMajor, StorageIndex>>
++      MappedSparseMatrix;
++#else
+   typedef Eigen::MappedSparseMatrix<Scalar, ColMajor, StorageIndex>
+       MappedSparseMatrix;
++#endif
+ 
+   SparseLUMatrixLReturnTypeVisitor<SCMatrix>::expose(
+       ("SparseLUMatrixLReturnType"));
