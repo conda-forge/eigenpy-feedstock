@@ -1,6 +1,6 @@
 context:
   name: eigenpy
-  version: "3.12.0"
+  version: "3.13.0"
   build_num: 0
 
 package:
@@ -9,14 +9,14 @@ package:
 
 source:
   url: https://github.com/stack-of-tasks/${{ name }}/releases/download/v${{ version }}/${{ name }}-${{ version }}.tar.gz
-  sha256: e6b7f17e1b7fb61e52447ceee8f47c3fc2c8f9cc4d19317e0467dc71babdb350
+  sha256: 4e5f05ffa68a299732c6284348486d1f0c364e7f2a2bce0f14afa93780226d0b
   patches:
     - 0001-fix-generalized-eigen-solver-return-policies.patch
     - 0002-fix-svd-compute-overloads.patch
     - 0003-fix-sparse-lu-eigen5-compat.patch
 
 build:
-  number: 4
+  number: 0
 
 requirements:
   build:
