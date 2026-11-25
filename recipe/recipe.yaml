@@ -1,14 +1,14 @@
 context:
   name: eigenpy
-  version: "3.14.0"
+  version: "4.0.0"
 
 package:
   name: ${{ name|lower }}
   version: ${{ version }}
 
 source:
-  url: https://github.com/stack-of-tasks/${{ name }}/releases/download/v${{ version }}/${{ name }}-${{ version }}.tar.gz
-  sha256: 876fffa34eeed6789bc88d170e18d895a9fecfa2f2334d768168ac414218b3f7
+  url: https://github.com/stack-of-tasks/${{ name }}/archive/v${{ version }}.tar.gz
+  sha256: 4cdd66deb0002506ad38502b11db0f49510170e36d29f06b3252c8a731b4dc4e
 
 build:
   number: 0
