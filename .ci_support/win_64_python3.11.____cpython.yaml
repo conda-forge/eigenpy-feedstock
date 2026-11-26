@@ -4,10 +4,14 @@ channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
-cxx_compiler:
+clang_compiler:
 - clang-cl
-cxx_compiler_version:
-- '2022'
+clang_compiler_version:
+- '22'
+clangxx_compiler:
+- clang-cl
+clangxx_compiler_version:
+- '22'
 eigen_abi_devel:
 - 5.0.1
 libboost_python_devel:
