@@ -1,21 +1,27 @@
 context:
   name: eigenpy
-  version: "3.14.0"
+  version: "4.0.0"
 
 package:
   name: ${{ name|lower }}
   version: ${{ version }}
 
 source:
-  url: https://github.com/stack-of-tasks/${{ name }}/releases/download/v${{ version }}/${{ name }}-${{ version }}.tar.gz
-  sha256: 876fffa34eeed6789bc88d170e18d895a9fecfa2f2334d768168ac414218b3f7
+  url: https://github.com/stack-of-tasks/${{ name }}/archive/v${{ version }}.tar.gz
+  sha256: 4cdd66deb0002506ad38502b11db0f49510170e36d29f06b3252c8a731b4dc4e
 
 build:
   number: 0
 
 requirements:
   build:
-    - ${{ compiler('cxx') }}
+    - if: not win
+      then:
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+      else:
+        - ${{ compiler('clang') }}
+        - ${{ compiler('clangxx') }}
     - ${{ stdlib("c") }}
     - if: build_platform != target_platform
       then:
@@ -25,8 +31,7 @@ requirements:
     - cmake
     - ninja
     - git
-    - if: win
-      then: clang # use clang-cl on windows
+    - jrl-cmakemodules
   host:
     - eigen
     - eigen-abi-devel
@@ -55,12 +60,6 @@ requirements:
     - ${{ pin_subpackage(name, upper_bound='x.x.x') }}
 
 tests:
-  - script:
-      - pkg-config --modversion eigenpy
-    requirements:
-      run:
-        - pkg-config
-        - libboost-python-devel
   - python:
       imports:
         - eigenpy
