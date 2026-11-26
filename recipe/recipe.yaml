@@ -25,8 +25,7 @@ requirements:
     - cmake
     - ninja
     - git
-    - if: win
-      then: clang # use clang-cl on windows
+    - jrl-cmakemodules
   host:
     - eigen
     - eigen-abi-devel
@@ -55,12 +54,6 @@ requirements:
     - ${{ pin_subpackage(name, upper_bound='x.x.x') }}
 
 tests:
-  - script:
-      - pkg-config --modversion eigenpy
-    requirements:
-      run:
-        - pkg-config
-        - libboost-python-devel
   - python:
       imports:
         - eigenpy

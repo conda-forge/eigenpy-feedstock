@@ -1,13 +1,12 @@
 #!/bin/sh
 
+set -exuo
+
 mkdir build
 cd build
 
 export BUILD_NUMPY_INCLUDE_DIRS=$( $PYTHON -c "import numpy; print (numpy.get_include())")
 export TARGET_NUMPY_INCLUDE_DIRS=$SP_DIR/numpy/core/include
-
-echo $BUILD_NUMPY_INCLUDE_DIRS
-echo $TARGET_NUMPY_INCLUDE_DIRS
 
 export GENERATE_PYTHON_STUBS=1
 if [[ $CONDA_BUILD_CROSS_COMPILATION == 1 ]]; then
@@ -19,13 +18,17 @@ else
   export Python3_NumPy_INCLUDE_DIR=$BUILD_NUMPY_INCLUDE_DIRS
 fi
 
+PYTHON_INCLUDE_DIR="$(python -c 'import sysconfig; print(sysconfig.get_path("include"))')"
+
 cmake ${CMAKE_ARGS} .. \
       -G Ninja \
       -DCMAKE_BUILD_TYPE=Release \
-      -DPYTHON_EXECUTABLE=$PYTHON \
       -DBUILD_TESTING_SCIPY=OFF \
       -DGENERATE_PYTHON_STUBS=$GENERATE_PYTHON_STUBS \
-      -DPython3_NumPy_INCLUDE_DIR=$Python3_NumPy_INCLUDE_DIR
+      -DPython3_NumPy_INCLUDE_DIR=$Python3_NumPy_INCLUDE_DIR \
+      -DPython_EXECUTABLE=$PYTHON \
+      -DPython_INCLUDE_DIR=$PYTHON_INCLUDE_DIR
+
 cmake --build . --parallel $(($CPU_COUNT/2))
 cmake --build . --target install
 
