@@ -15,7 +15,13 @@ build:
 
 requirements:
   build:
-    - ${{ compiler('cxx') }}
+    - if: not win
+      then:
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+      else:
+        - ${{ compiler('clang') }}
+        - ${{ compiler('clangxx') }}
     - ${{ stdlib("c") }}
     - if: build_platform != target_platform
       then:

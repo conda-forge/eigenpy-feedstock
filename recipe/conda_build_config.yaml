@@ -1,3 +1,0 @@
-cxx_compiler:         # [win]
-  - clang-cl          # [win]
-
