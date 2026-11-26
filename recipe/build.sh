@@ -13,9 +13,9 @@ if [[ $CONDA_BUILD_CROSS_COMPILATION == 1 ]]; then
   mkdir -p $TARGET_NUMPY_INCLUDE_DIRS
   cp -r $BUILD_NUMPY_INCLUDE_DIRS/numpy $TARGET_NUMPY_INCLUDE_DIRS
   export GENERATE_PYTHON_STUBS=0
-  export Python3_NumPy_INCLUDE_DIR=$TARGET_NUMPY_INCLUDE_DIRS
+  export Python_NumPy_INCLUDE_DIR=$TARGET_NUMPY_INCLUDE_DIRS
 else
-  export Python3_NumPy_INCLUDE_DIR=$BUILD_NUMPY_INCLUDE_DIRS
+  export Python_NumPy_INCLUDE_DIR=$BUILD_NUMPY_INCLUDE_DIRS
 fi
 
 PYTHON_INCLUDE_DIR="$(python -c 'import sysconfig; print(sysconfig.get_path("include"))')"
@@ -25,7 +25,7 @@ cmake ${CMAKE_ARGS} .. \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_TESTING_SCIPY=OFF \
       -DGENERATE_PYTHON_STUBS=$GENERATE_PYTHON_STUBS \
-      -DPython3_NumPy_INCLUDE_DIR=$Python3_NumPy_INCLUDE_DIR \
+      -DPython_NumPy_INCLUDE_DIR=$Python_NumPy_INCLUDE_DIR \
       -DPython_EXECUTABLE=$PYTHON \
       -DPython_INCLUDE_DIR=$PYTHON_INCLUDE_DIR
 
