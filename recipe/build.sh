@@ -35,8 +35,3 @@ cmake ${CMAKE_ARGS} .. \
 
 cmake --build . --parallel $(($CPU_COUNT/2))
 cmake --build . --target install
-
-if [[ $CONDA_BUILD_CROSS_COMPILATION == 1 ]]; then
-  sed -i.back 's|'"$BUILD_PREFIX"'|'"$PREFIX"'|g' $PREFIX/lib/cmake/eigenpy/eigenpyTargets.cmake
-  rm "$PREFIX/lib/cmake/eigenpy/eigenpyTargets.cmake.back"
-fi
